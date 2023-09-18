@@ -27,22 +27,29 @@ namespace ColoursAPi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var server = Configuration["DBServer"] ?? "localhost";
-            //var port = Configuration["DBPort"] ?? "1433";
-            //var Database = Configuration["Database"] ?? "Colours";
-            //var username = Configuration["DBUser"] ?? "SA";//Your SQL Server login
-            //var password = Configuration["DBPassword"] ?? "pa$$w0rd2023";  // Your SQL Server password
+            var server = Configuration["DBServer"] ?? "localhost";
+            var port = Configuration["DBPort"] ?? "1433";
+            var Database = Configuration["Database"] ?? "Colours";
+            var user= Configuration["DBUser"] ?? "SA";//Your SQL Server login
+            var password = Configuration["DBPassword"] ?? "pa$$w0rd2019";  // Your SQL Server password
+            var PasswordConnection = Configuration["PasswordConnection"] ?? "false";
 
             string dbServer = Configuration["DB_SERVER"]?? "(localdb)\\MSSQLLocalDB";
             Console.WriteLine(dbServer);
             string dbName = Configuration["DB_NAME"]??"Colours";
             string dbIntegratedSecurity = Configuration["DB_INTEGRATED_SECURITY"]??"True";
             
-            string connectionString = $"Data Source={dbServer};Initial Catalog={dbName};Integrated Security={dbIntegratedSecurity}";
-            Console.WriteLine(connectionString);
+            string connectionString1 = $"Data Source={dbServer};Initial Catalog={dbName};Integrated Security={dbIntegratedSecurity}";
+            string connectionString2 = $"Server={server},{port};Initial Catalog={Database};User ID={user};Password={password}";
+
+            if (PasswordConnection.ToLower() == "true") 
+                Console.WriteLine($"Connection String 1 is Sleected" + connectionString2);
+            else Console.WriteLine($"Connection String 1 is Sleected"+connectionString1);
+            
+            
             services.AddDbContext<ColorDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(PasswordConnection=="true"?connectionString2:connectionString1);
             });
             services.AddControllers();
         }
