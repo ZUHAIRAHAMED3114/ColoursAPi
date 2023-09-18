@@ -1,0 +1,26 @@
+﻿
+step-1
+===
+$ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=pa$$w0rd2019' -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server:2019-latest
+
+step-2  {Get the Id }
+======= 
+$ docker ps
+CONTAINER ID   IMAGE                                        COMMAND                  CREATED
+STATUS          PORTS                     NAMES
+ba8b4b216a30   mcr.microsoft.com/mssql/server:2019-latest   "/opt/mssql/bin/perm…"   50 minutes ago   Up 50 minutes   0.0.0.0:11433->1433/tcp   sqlserver
+
+step-3
+=====
+$ docker exec -it 8402c49518cd  /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'pa$$w0rd2019'
+
+
+check whether running or not 
+-----------------------------
+1> create database LeaveManagement
+2> select name from sys.databases
+3> go
+
+
+
+Please Check each Argument Value
