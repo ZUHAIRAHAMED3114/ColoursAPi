@@ -1,0 +1,5 @@
+﻿1st) git clone
+2nd) build :->  docker build -t zuhairahamed/colorapi:v1 .
+3rd) Running:-> with Environment varialbes.. docker run -p 8080:5000 -e "PasswordConnection=true" zuhairahamed/colorapi:v1
+
+// Pending is Issue Here...like networking Communication issue of Two Container
