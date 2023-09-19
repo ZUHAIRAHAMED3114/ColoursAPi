@@ -17,7 +17,7 @@ services:
     ports:
       - "8090:80" # Map host port 5000 to container port 80
     depends_on:
-      - sql-server
+      - sql-server3
     environment:
       - PasswordConnection=true  
       - DBServer=sql-server3
