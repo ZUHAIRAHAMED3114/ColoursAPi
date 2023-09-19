@@ -12,16 +12,16 @@ services:
       - sa_password="pa55w0rd2019"
   
 # .NET Core Web API Service
-  web-api:
-    build: . # Path to your Dockerfile for the Web API
-    ports:
-      - "8090:80" # Map host port 5000 to container port 80
-    depends_on:
-      - sql-server3
-    environment:
-      - PasswordConnection=true  
-      - DBServer=sql-server3
-      - DBPort=1433
+  #web-api:
+  #  build: . # Path to your Dockerfile for the Web API
+  #  ports:
+  #    - "8090:80" # Map host port 5000 to container port 80
+  #  depends_on:
+  #    - sql-server3
+  #  environment:
+  #    - PasswordConnection=true  
+  #    - DBServer=sql-server3
+  #    - DBPort=1433
       
  
 
