@@ -31,7 +31,7 @@ namespace ColoursAPi
             var port = Configuration["DBPort"] ?? "1433";
             var Database = Configuration["Database"] ?? "Colours";
             var user= Configuration["DBUser"] ?? "SA";//Your SQL Server login
-            var password = Configuration["DBPassword"] ?? "pa$$w0rd2019";  // Your SQL Server password
+            var password = Configuration["DBPassword"] ?? "pa55w0rd2019";  // Your SQL Server password
             var PasswordConnection = Configuration["PasswordConnection"] ?? "false";
 
             string dbServer = Configuration["DB_SERVER"]?? "(localdb)\\MSSQLLocalDB";
