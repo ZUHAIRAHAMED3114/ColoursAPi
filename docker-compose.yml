@@ -2,25 +2,25 @@
 
 services:
 
- # SQL Server Service
-  #sql-server:
-  #  image: mcr.microsoft.com/mssql/server:2019-latest
-  #  ports:
-  #    - "1445:1433" # Map host port 1433 to container port 1433
-  #  environment:
-  #    - ACCEPT_EULA=Y
-  #    - SA_PASSWORD=pa55w0rd2019
+  #sql server service
+  sql-server3:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1446:1433" # map host port 1433 to container port 1433
+    environment:
+      - accept_eula=y
+      - sa_password=pa55w0rd2019
   
 # .NET Core Web API Service
   web-api:
     build: . # Path to your Dockerfile for the Web API
     ports:
-      - "8000:80" # Map host port 5000 to container port 80
-    #depends_on:
-    #  - sql-server
+      - "8090:80" # Map host port 5000 to container port 80
+    depends_on:
+      - sql-server
     environment:
       - PasswordConnection=true  
-      - DBServer=172.17.0.2
+      - DBServer=sql-server3
       - DBPort=1433
       
  
