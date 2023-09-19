@@ -8,8 +8,8 @@ services:
     ports:
       - "1446:1433" # map host port 1433 to container port 1433
     environment:
-      - accept_eula=y
-      - sa_password=pa55w0rd2019
+      - accept_eula="y" 
+      - sa_password="pa55w0rd2019"
   
 # .NET Core Web API Service
   web-api:
