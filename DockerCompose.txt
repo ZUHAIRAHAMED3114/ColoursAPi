@@ -1,1 +1,46 @@
-﻿$ docker run -p 8080:5000 -e "DBServer=172.17.0.2" -e "PasswordConnection=true" zuhairahamed/colorapi:v1
+﻿A) Without Compose
+   --------------
+ 1) first Running the sql 
+       --docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=pa55w0rd2019' -p 1434:1433 --name sqlserver1 -d mcr.microsoft.com/mssql/server:2019-latest
+ 2) next getting the ip address of the Sql Container
+         docker inspect container 1635454654(Id)/containerName
+ 3) after getting the ip address 
+            a)  docker build -t zuhairahamed/colorapi:v1 .          // if . i.e means we are running this command in asp.ent file
+            b)  docker run -p 8080:5000 -e "DBServer=172.17.0.2" -e "PasswordConnection=true" zuhairahamed/colorapi:v1
+
+B) With Compose 
+  -----------
+1)  lets understand the File Strucuture
+		-ColoursAPi          
+		-docker-compose.yml
+2)  docker-componse.yml file 
+version: '3'
+  2
+  3 services:
+  4   # .NET Core Web API Service
+  5
+  6   sql-server3:
+  7     image: mcr.microsoft.com/mssql/server:2019-latest
+  8     ports:
+  9       - "1447:1433" # map host port 1433 to container port 1433
+ 10     environment:
+ 11       - ACCEPT_EULA=Y
+ 12       - SA_PASSWORD=Pa55w0rd2019
+ 13
+ 14
+ 15   web-api:
+ 16     build: ./ColoursAPi # Path to your Dockerfile for the Web API
+ 17     ports:
+ 18       - "5001:80" # Map host port 5000 to container port 80
+ 19     depends_on:
+ 20       - sql-server3
+ 21     environment:
+ 22       - PasswordConnection=true
+ 23       - DBServer=sql-server3
+ 24       - DBPort=1433
+ 25       - DBPassword=Pa55w0rd2019
+ 26
+ 27
+~
+
+3) docker-compose up  // this command is running in the folder where yml file is there...                                                                                                                                                                                                       ~                                                                                                                                                                                                                ~                                                                                                                                                                                                                ~                                                   
