@@ -1,0 +1,120 @@
+step-1
+------
+pulling the Image  
+docker pull mcr.microsoft.com/dotnet/core/sdk:3.1
+
+step-2
+------
+go to File Directort of the sln of asp.net core 
+run the docker command  
+why going to the application directory to easily copy the
+application/code files to the docker
+
+step-3
+------
+ to run the contaner
+
+docker run -idt --name dev -p 8000:80 mcr.microsoft.com/dotnet/core/sdk:3.1 
+
+step-4
+-------
+to go inside the container 
+ docker exec -it dev bash
+ 
+brief explaination 
+ This command uses the docker exec command to execute a new command (bash) inside the running container named "dev."  
+
+step-5
+----
+ coping the code to the Docker Container 
+
+docker cp . dev:/source
+
+docker cp Is the the copy command to the Docer
+from where . i.e means from the current direcory
+to the dev contianer /source directory
+
+step- 6
+-------
+after copy of the soure code now we are
+restoring the packages which this applicaion is depend
+
+:--> dotnet restore
+
+after giving the restore obj :-> folder is created which contian all the dependencied nuget.package config
+
+step-7
+------
+finally publish the project
+:--> dotnet publish
+
+by running this above command build files are publish inside the obj/debug/netcoreapp3.1
+i.e means
+  /obj/
+  /obj/Debug
+  /obj/Debug/netcore3.1/
+    inside above folder all dll files are stored....
+
+
+to avoid this 
+
+step-8
+----
+ we have to specify the folder on which this build files are to be stored...?
+ like 
+ 
+ dotnet publish -c release -o /app --no-restore   // we already restored all things ...
+
+ /app this is absolute path to the container file locaiton not with respect to the source code...
+
+
+
+step-9
+-----
+ the problem we observed as follows
+
+ warn: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[60]
+      Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {6a16e78b-a4b7-4a31-a2a4-3449eb83e389} may be persisted to storage in unencrypted form.
+warn: Microsoft.AspNetCore.Server.Kestrel[0]
+      Unable to bind to http://localhost:5000 on the IPv6 loopback interface: 'Cannot assign requested address'.
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: http://localhost:5000
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
+
+our container exposing 80 port which is mapped to 8000 port of host maching
+but this appplicaion is running at 5000 port (of container) which is not mapped to the port of the host machine ..?
+
+then...?
+ now setting our asp.net core applciation to be run in the 80 port instead of 5000 port ...?
+
+ in bash script
+ ---
+ we are setting env varialbes 
+ ASPNETCORE_URLS=http://localhost:80
+
+SETTING ENVIRONMENT VARIABLES AS FOLLOWS
+------
+warn: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[60]
+      Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+warn: Microsoft.AspNetCore.Server.Kestrel[0]
+      Unable to bind to http://localhost:80 on the IPv6 loopback interface: 'Cannot assign requested address'.
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: http://localhost:80
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
+------
+
+
+step-10
+=======
