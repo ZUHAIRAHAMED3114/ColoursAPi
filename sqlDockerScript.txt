@@ -58,3 +58,41 @@ B) To Run inside the Container
 
 
 see Ref :https://khalidabuhakmeh.com/running-sql-server-queries-in-docker
+
+See Dummy Transaction to write down the script 
+----------------------------------------------
+1> create database testdb
+2> use testdb
+3> select name from sys.Database
+4>
+5> go
+Msg 911, Level 16, State 1, Server cb8043556b49, Line 2
+Database 'testdb' does not exist. Make sure that the name is entered correctly.
+1> create database testdb
+2> go
+1> use testdb
+2> go
+Changed database context to 'testdb'.
+1> select name from sys.Databases
+2> go
+name
+--------------------------------------------------------------------------------------------------------------------------------
+master
+tempdb
+model
+msdb
+testdb
+
+(5 rows affected)
+1> use testdb
+2> go
+Changed database context to 'testdb'.
+1> Create table Users(id int identity(1,1) primary key,name nvarchar(100))
+2> go
+1> select * from Users
+2> go
+id          name
+----------- ----------------------------------------------------------------------------------------------------
+
+(0 rows affected)
+1>
