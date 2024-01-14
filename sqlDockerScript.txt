@@ -38,3 +38,23 @@ services:
     environment:
       SA_PASSWORD: "pa$$w0rd2019"
       ACCEPT_EULA: "Y"
+-----------------------------------------------------------------------------
+A) if you found any error related to password use this below script 
+
+version: "3.7"
+services:
+  sql-server-db1:
+    container_name: sql-server-db1
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"  # Corrected port mapping
+    environment:
+      SA_PASSWORD: "Your_Password123"
+      ACCEPT_EULA: "Y"
+
+B) To Run inside the Container 
+  1)   docker exec -it sql-server-db1 "bash" or 
+  2)   /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Your_Password123'
+
+
+see Ref :https://khalidabuhakmeh.com/running-sql-server-queries-in-docker
